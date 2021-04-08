@@ -1,0 +1,85 @@
+<div class="job-wrap w-100 row p-3 card flex-row position-relative">
+    <div class=" col-md-3">
+        <div class="logo-wrap font-weight-bold text-white">
+            {{job.logoText}}
+        </div>
+        
+    </div>
+    <div class="col-md-9">
+        <div class="fs-lg font-weight-bold">
+            {{job.jobTitle}}
+        </div>
+        <div class="fs-md">
+            {{(job.type === 1)? 'Full time':(job.type === 2)?'Part time':'Freelance'}}
+        </div>
+        <div class="fs-md">
+            {{job.companyName}}  |  {{job.location}}  |  {{(job.expLevel === 0)? '0-2 years':(job.expLevel === 1)?'2-5 years':(job.expLevel === 3)? '5-10 years':'10+ years'}}
+        </div>
+        <div>
+            Skills: <span class="m-0" *ngFor="let skill of job.skills">{{skill}},</span>
+        </div>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" (click)="apply(applyModal)">Apply</button>
+        </div>
+        <div class="position-absolute d-flex" style="top: 0px; right: 0px;">
+            <div data-toggle="tooltip" title="Facebook" class=" cursor-pointer mr-1 round d-flex justify-content-center align-items-center" >
+                f
+            </div>
+            <div data-toggle="T" title="Twitter" class="cursor-pointer mr-1 round d-flex justify-content-center align-items-center" >
+                t
+            </div>
+            <div data-toggle="tooltip" title="Share" class=" cursor-pointer round d-flex justify-content-center align-items-center">
+                s
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #applyModal>
+    <div class="modal-header bg-primary p-2 d-flex align-items-center">
+        <p class="text-white font-weight-bold fs-md m-0">Apply</p>
+    </div>
+    <div class="modal-body text-left px-4">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Name</label>
+            <input type="text" class="form-control" [(ngModel)]= "userData.name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input type="email" class="form-control" [(ngModel)]= "userData.email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Mobile No</label>
+            <input type="text" class="form-control" [(ngModel)]= "userData.mobile" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlFile1">Upload resume</label>
+            <input type="file" class="form-control-file" id="exampleFormControlFile1" (change)="onFileChange($event)">
+          </div>
+        
+
+        <div class="form-check mb-4"> 
+            <input class="form-check-input " type="checkbox" value="0" id="check1" name="jobType" [(ngModel)]="userData.tc" checked = "userData.tc">
+            <label class="form-check-label" for="defaultCheck1">
+              I agree to LV terms and conditions
+            </label>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary mr-2" (click)="closeDetailModal();">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="completeApply();" [disabled] = "isDisabled()">Apply</button>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #applyConfirmModal>
+    <div class="modal-header bg-primary p-2 d-flex align-items-center">
+        <p class="text-white font-weight-bold fs-md m-0">Confirmation of application</p>
+    </div>
+    <div class="modal-body text-left px-4">
+       Thank you for applying for {{job.jobTitle}} job on LetsVenture
+    </div>
+    <button type="button" class="btn btn-primary mb-3 w-25 align-self-end mr-3" (click)="closeDetailModal();">Got it</button>
+
+</ng-template>

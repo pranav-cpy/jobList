@@ -1,0 +1,66 @@
+<div class="row p-2 d-flex justify-content-between px-5 py-3 align-items-center">
+    <div class="form-group w-25 m-0">
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Search by keyword" [(ngModel)]="filterObj.text">
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input " type="checkbox" value="0" id="check1" name="jobType" [(ngModel)]="filterObj.all" checked = "filterObj.all">
+        <label class="form-check-label" for="defaultCheck1">
+          All
+        </label>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="1" id="check2" name="jobType" [(ngModel)]="filterObj.full" checked = "filterObj.full">
+        <label class="form-check-label" for="defaultCheck2">
+          Full time
+        </label>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="2" id="check3" name="jobType" [(ngModel)]="filterObj.part" checked = "filterObj.part">
+        <label class="form-check-label" for="defaultCheck3">
+          Part time
+        </label>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="3" id="check4" name="jobType" [(ngModel)]="filterObj.freelance" checked = "filterObj.freelance">
+        <label class="form-check-label" for="defaultCheck4">
+          Freelance
+        </label>
+    </div>
+
+    <button class="btn btn-primary" (click)="filterJobs()" [disabled]="(filterObj.isAdvanced && (filterObj.selectedLocations.length === 0))">Search</button>
+</div>
+<div class="cursor-pointer font-weight-bold mb-2 ml-4 advanced" (click)="filterObj.isAdvanced = !filterObj.isAdvanced" >Advanced Search</div>
+
+<div class="row ml-4 pr-4" *ngIf= "filterObj.isAdvanced">
+    <div class="col-md-4 px-1">
+        <label class="form-label fw-400">Filter by location</label>
+        <ng-multiselect-dropdown
+        [placeholder]="'Click here'"
+        [settings]="dropdownSettings"
+        [data]="dropdownList"
+        [(ngModel)]="filterObj.selectedLocations"
+        (onSelect)="onItemSelect($event)"
+        (onSelectAll)="onSelectAll($event)"
+      >
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="col-md-3 ml-3 form-group">
+            <label class="form-label fw-400">Filter by Experience</label>
+            <select class="form-control" [(ngModel)]="filterObj.expLevel">
+              <option [selected]="filterObj.expLevel == exp.expLevel" *ngFor="let exp of expData"
+                [value]="exp.expLevel">{{exp.text}}
+              </option>
+            </select>
+    </div>
+    
+</div>
+
+<div class="row px-5">
+    <div class="job-div col-md-6 mb-3" *ngFor="let job of jobs | filter : filterPipeObject" style="flex-wrap: wrap;">
+        <app-job [job]= "job"></app-job>
+    </div>
+</div>
